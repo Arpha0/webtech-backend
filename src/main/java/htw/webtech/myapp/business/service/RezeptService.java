@@ -10,8 +10,8 @@ public class RezeptService {
 
     public List<RezeptDTO> getAllRezept() {
         return List.of(
-                new RezeptDTO("Apfelkuchen", "test1"),
-                new RezeptDTO("Kirschkuchen", "test2")
+                new RezeptDTO(1, "Apfelkuchen","test1"),
+                new RezeptDTO(2, "Kirschkuchen", "test2")
         );
     }
 }
