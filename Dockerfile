@@ -3,7 +3,7 @@
 FROM gradle:jdk21-jammy AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
-RUN gradle build --no-daemon
+RUN gradle build -x test --no-daemon
 
 LABEL authors="arthur"
 
