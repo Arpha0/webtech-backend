@@ -9,7 +9,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")  // Oder "/**" für alle Pfade
-                .allowedOrigins("http://localhost:5173", "https://webtech-frontend-ohtd.onrender.com") // Die URL deines Frontends
+                .allowedOrigins("http://localhost:5173", "https://webtech-frontend-bi2l.onrender.com") // Die URL deines Frontends
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS");
     }
 }
