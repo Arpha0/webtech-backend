@@ -30,4 +30,9 @@ public class RezeptService {
         Rezept savedRezept = rezeptRepository.save(rezept);
         return new RezeptDTO(Math.toIntExact(savedRezept.getId()), savedRezept.getNameRezept(), savedRezept.getAnleitungRezept());
     }
+
+    public void deleteRezept(Long id) {
+        rezeptRepository.deleteById(id);
+    }
+
 }

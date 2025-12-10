@@ -28,4 +28,10 @@ public class RezeptController {
         RezeptDTO createdRezept = rezeptService.createRezept(rezept);
         return ResponseEntity.ok(createdRezept);
     }
+
+    @DeleteMapping("/rezepte/{id}")
+    public ResponseEntity<Void> deleteRezept(@PathVariable("id") Long id) {
+        rezeptService.deleteRezept(id);
+        return ResponseEntity.noContent().build();
+    }
 }

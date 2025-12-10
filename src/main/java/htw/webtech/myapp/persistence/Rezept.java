@@ -11,7 +11,6 @@ public class Rezept {
     private String nameRezept;
     private String anleitungRezept;
 
-    // Leerer Konstruktor (Pflicht für JPA)
     public Rezept() {}
 
     public Rezept(String nameRezept, String anleitungRezept) {
