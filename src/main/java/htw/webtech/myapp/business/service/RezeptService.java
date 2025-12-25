@@ -21,18 +21,30 @@ public class RezeptService {
 
     public List<RezeptDTO> getAllRezept() {
         return rezeptRepository.findAll().stream()
-                .map(rezept -> new RezeptDTO(Math.toIntExact(rezept.getId()), rezept.getNameRezept(), rezept.getAnleitungRezept()))
+                .map(rezept -> new RezeptDTO(rezept.getId(), rezept.getNameRezept(), rezept.getAnleitungRezept()))
                 .collect(Collectors.toList());
     }
 
     public RezeptDTO createRezept(RezeptDTO rezeptDTO) {
-        Rezept rezept = new Rezept(rezeptDTO.nameRezept(), rezeptDTO.anleitungRezept());
+        Rezept rezept = new Rezept(rezeptDTO.getNameRezept(), rezeptDTO.getAnleitungRezept());
         Rezept savedRezept = rezeptRepository.save(rezept);
-        return new RezeptDTO(Math.toIntExact(savedRezept.getId()), savedRezept.getNameRezept(), savedRezept.getAnleitungRezept());
+        return new RezeptDTO(savedRezept.getId(), savedRezept.getNameRezept(), savedRezept.getAnleitungRezept());
     }
 
     public void deleteRezept(Long id) {
         rezeptRepository.deleteById(id);
+    }
+
+    public RezeptDTO updateRezept(Long id, RezeptDTO rezeptDTO) {
+        // 1. Das alte Rezept aus der DB holen (oder Fehler werfen, wenn nicht da)
+        var rezept = rezeptRepository.findById(id).orElseThrow();
+        // 2. Die neuen Werte setzen
+        rezept.setNameRezept(rezeptDTO.getNameRezept());
+        rezept.setAnleitungRezept(rezeptDTO.getAnleitungRezept());
+        // 3. Speichern
+        var updatedRezept = rezeptRepository.save(rezept);
+        // 4. In DTO umwandeln und zurückgeben
+        return new RezeptDTO(updatedRezept.getId(), updatedRezept.getNameRezept(), updatedRezept.getAnleitungRezept());
     }
 
 }

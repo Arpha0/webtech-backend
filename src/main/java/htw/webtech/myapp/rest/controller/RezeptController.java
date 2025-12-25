@@ -34,4 +34,10 @@ public class RezeptController {
         rezeptService.deleteRezept(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/rezepte/{id}")
+    public ResponseEntity<RezeptDTO> updateRezept(@PathVariable Long id, @RequestBody RezeptDTO rezeptDTO) {
+        var updated = rezeptService.updateRezept(id, rezeptDTO);
+        return ResponseEntity.ok(updated);
+    }
 }
