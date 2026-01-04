@@ -21,14 +21,14 @@ public class RezeptService {
 
     public List<RezeptDTO> getAllRezept() {
         return rezeptRepository.findAll().stream()
-                .map(rezept -> new RezeptDTO(rezept.getId(), rezept.getNameRezept(), rezept.getAnleitungRezept()))
+                .map(rezept -> new RezeptDTO(rezept.getId(), rezept.getNameRezept(), rezept.getAnleitungRezept(), rezept.getBild()))
                 .collect(Collectors.toList());
     }
 
     public RezeptDTO createRezept(RezeptDTO rezeptDTO) {
-        Rezept rezept = new Rezept(rezeptDTO.getNameRezept(), rezeptDTO.getAnleitungRezept());
+        Rezept rezept = new Rezept(rezeptDTO.getNameRezept(), rezeptDTO.getAnleitungRezept(), rezeptDTO.getBild());
         Rezept savedRezept = rezeptRepository.save(rezept);
-        return new RezeptDTO(savedRezept.getId(), savedRezept.getNameRezept(), savedRezept.getAnleitungRezept());
+        return new RezeptDTO(savedRezept.getId(), savedRezept.getNameRezept(), savedRezept.getAnleitungRezept(), savedRezept.getBild());
     }
 
     public void deleteRezept(Long id) {
@@ -44,7 +44,7 @@ public class RezeptService {
         // 3. Speichern
         var updatedRezept = rezeptRepository.save(rezept);
         // 4. In DTO umwandeln und zurückgeben
-        return new RezeptDTO(updatedRezept.getId(), updatedRezept.getNameRezept(), updatedRezept.getAnleitungRezept());
+        return new RezeptDTO(updatedRezept.getId(), updatedRezept.getNameRezept(), updatedRezept.getAnleitungRezept(), updatedRezept.getBild());
     }
 
 }
