@@ -8,7 +8,9 @@ public class Rezept {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String nameRezept;
+    @Column(nullable = false)
     private String anleitungRezept;
     @Column(columnDefinition = "TEXT") // Postgres große Texte erlaubt
     private String bild;
