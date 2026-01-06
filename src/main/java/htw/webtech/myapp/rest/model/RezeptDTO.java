@@ -6,16 +6,18 @@ public class RezeptDTO {
     private String nameRezept;
     private String anleitungRezept;
     private String bild;
+    private String kategorie;
 
     // Leerer Konstruktor (wichtig für Frameworks)
     public RezeptDTO() {}
 
     // Konstruktor
-    public RezeptDTO(Long id, String nameRezept, String anleitungRezept, String bild) {
+    public RezeptDTO(Long id, String nameRezept, String anleitungRezept, String bild, String kategorie) {
         this.id = id;
         this.nameRezept = nameRezept;
         this.anleitungRezept = anleitungRezept;
         this.bild = bild;
+        this.kategorie = kategorie;
     }
 
     public Long getId() {
@@ -45,4 +47,6 @@ public class RezeptDTO {
     public String getBild() { return bild; }
 
     public void setBild(String bild) { this.bild = bild; }
+    public String getKategorie() { return kategorie; }
+    public void setKategorie(String kategorie) { this.kategorie = kategorie; }
 }

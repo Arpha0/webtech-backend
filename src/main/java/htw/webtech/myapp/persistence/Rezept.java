@@ -12,13 +12,15 @@ public class Rezept {
     private String anleitungRezept;
     @Column(columnDefinition = "TEXT") // Postgres große Texte erlaubt
     private String bild;
+    private String kategorie;
 
     public Rezept() {}
 
-    public Rezept(String nameRezept, String anleitungRezept, String bild) {
+    public Rezept(String nameRezept, String anleitungRezept, String bild, String kategorie) {
         this.nameRezept = nameRezept;
         this.anleitungRezept = anleitungRezept;
         this.bild = bild;
+        this.kategorie = kategorie;
     }
 
     // Getter und Setter
@@ -30,5 +32,7 @@ public class Rezept {
     public void setAnleitungRezept(String anleitungRezept) { this.anleitungRezept = anleitungRezept; }
     public String getBild() { return bild; }
     public void setBild(String bild) { this.bild = bild; }
+    public String getKategorie() { return kategorie; }
+    public void setKategorie(String kategorie) { this.kategorie = kategorie; }
 
 }
