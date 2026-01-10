@@ -21,14 +21,14 @@ public class RezeptService {
 
     public List<RezeptDTO> getAllRezept() {
         return rezeptRepository.findAll().stream()
-                .map(rezept -> new RezeptDTO(rezept.getId(), rezept.getNameRezept(), rezept.getAnleitungRezept(), rezept.getBild(), rezept.getKategorie()))
+                .map(rezept -> new RezeptDTO(rezept.getId(), rezept.getNameRezept(), rezept.getAnleitungRezept(), rezept.getBild(), rezept.getKategorie(), rezept.getDauer()))
                 .collect(Collectors.toList());
     }
 
     public RezeptDTO createRezept(RezeptDTO rezeptDTO) {
-        Rezept rezept = new Rezept(rezeptDTO.getNameRezept(), rezeptDTO.getAnleitungRezept(), rezeptDTO.getBild(), rezeptDTO.getKategorie());
+        Rezept rezept = new Rezept(rezeptDTO.getNameRezept(), rezeptDTO.getAnleitungRezept(), rezeptDTO.getBild(), rezeptDTO.getKategorie(), rezeptDTO.getDauer());
         Rezept savedRezept = rezeptRepository.save(rezept);
-        return new RezeptDTO(savedRezept.getId(), savedRezept.getNameRezept(), savedRezept.getAnleitungRezept(), savedRezept.getBild(), savedRezept.getKategorie());
+        return new RezeptDTO(savedRezept.getId(), savedRezept.getNameRezept(), savedRezept.getAnleitungRezept(), savedRezept.getBild(), savedRezept.getKategorie(), rezept.getDauer());
     }
 
     public void deleteRezept(Long id) {
@@ -43,10 +43,11 @@ public class RezeptService {
         rezept.setAnleitungRezept(rezeptDTO.getAnleitungRezept());
         rezept.setBild(rezeptDTO.getBild());
         rezept.setKategorie(rezeptDTO.getKategorie());
+        rezept.setDauer(rezeptDTO.getDauer());
         // 3. Speichern
         var updatedRezept = rezeptRepository.save(rezept);
         // 4. In DTO umwandeln und zurückgeben
-        return new RezeptDTO(updatedRezept.getId(), updatedRezept.getNameRezept(), updatedRezept.getAnleitungRezept(), updatedRezept.getBild(), updatedRezept.getKategorie());
+        return new RezeptDTO(updatedRezept.getId(), updatedRezept.getNameRezept(), updatedRezept.getAnleitungRezept(), updatedRezept.getBild(), updatedRezept.getKategorie(), updatedRezept.getDauer());
     }
 
 }
