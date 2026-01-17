@@ -1,53 +1,46 @@
 package htw.webtech.myapp.business.service;
 
-import htw.webtech.myapp.persistence.Rezept;
-import htw.webtech.myapp.persistence.RezeptRepository;
+import htw.webtech.myapp.persistence.*;
 import htw.webtech.myapp.rest.model.RezeptDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class RezeptService {
-
     private final RezeptRepository rezeptRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    public RezeptService(RezeptRepository rezeptRepository) {
-        this.rezeptRepository = rezeptRepository;
+    public RezeptService(RezeptRepository rr, UserRepository ur) {
+        this.rezeptRepository = rr;
+        this.userRepository = ur;
     }
 
     public List<RezeptDTO> getAllRezept() {
         return rezeptRepository.findAll().stream()
-                .map(rezept -> new RezeptDTO(rezept.getId(), rezept.getNameRezept(), rezept.getAnleitungRezept(), rezept.getBild(), rezept.getKategorie(), rezept.getDauer()))
+                .map(r -> new RezeptDTO(r.getId(), r.getNameRezept(), r.getAnleitungRezept(), r.getBild(), r.getKategorie(), r.getDauer(),
+                        r.getOwner() != null ? r.getOwner().getId() : null))
                 .collect(Collectors.toList());
     }
 
-    public RezeptDTO createRezept(RezeptDTO rezeptDTO) {
-        Rezept rezept = new Rezept(rezeptDTO.getNameRezept(), rezeptDTO.getAnleitungRezept(), rezeptDTO.getBild(), rezeptDTO.getKategorie(), rezeptDTO.getDauer());
-        Rezept savedRezept = rezeptRepository.save(rezept);
-        return new RezeptDTO(savedRezept.getId(), savedRezept.getNameRezept(), savedRezept.getAnleitungRezept(), savedRezept.getBild(), savedRezept.getKategorie(), rezept.getDauer());
+    public RezeptDTO createRezept(RezeptDTO dto) {
+        User user = userRepository.findById(dto.getUserId()).orElseThrow();
+        Rezept r = new Rezept(dto.getNameRezept(), dto.getAnleitungRezept(), dto.getBild(), dto.getKategorie(), dto.getDauer());
+        r.setOwner(user);
+        Rezept saved = rezeptRepository.save(r);
+        return new RezeptDTO(saved.getId(), saved.getNameRezept(), saved.getAnleitungRezept(), saved.getBild(), saved.getKategorie(), saved.getDauer(), user.getId());
     }
 
-    public void deleteRezept(Long id) {
-        rezeptRepository.deleteById(id);
-    }
+    public void deleteRezept(Long id) { rezeptRepository.deleteById(id); }
 
-    public RezeptDTO updateRezept(Long id, RezeptDTO rezeptDTO) {
-        // 1. Das alte Rezept aus der DB holen (oder Fehler werfen, wenn nicht da)
-        var rezept = rezeptRepository.findById(id).orElseThrow();
-        // 2. Die neuen Werte setzen
-        rezept.setNameRezept(rezeptDTO.getNameRezept());
-        rezept.setAnleitungRezept(rezeptDTO.getAnleitungRezept());
-        rezept.setBild(rezeptDTO.getBild());
-        rezept.setKategorie(rezeptDTO.getKategorie());
-        rezept.setDauer(rezeptDTO.getDauer());
-        // 3. Speichern
-        var updatedRezept = rezeptRepository.save(rezept);
-        // 4. In DTO umwandeln und zurückgeben
-        return new RezeptDTO(updatedRezept.getId(), updatedRezept.getNameRezept(), updatedRezept.getAnleitungRezept(), updatedRezept.getBild(), updatedRezept.getKategorie(), updatedRezept.getDauer());
+    public RezeptDTO updateRezept(Long id, RezeptDTO dto) {
+        Rezept r = rezeptRepository.findById(id).orElseThrow();
+        r.setNameRezept(dto.getNameRezept());
+        r.setAnleitungRezept(dto.getAnleitungRezept());
+        r.setBild(dto.getBild());
+        r.setKategorie(dto.getKategorie());
+        r.setDauer(dto.getDauer());
+        Rezept updated = rezeptRepository.save(r);
+        return new RezeptDTO(updated.getId(), updated.getNameRezept(), updated.getAnleitungRezept(), updated.getBild(), updated.getKategorie(), updated.getDauer(), r.getOwner().getId());
     }
-
 }

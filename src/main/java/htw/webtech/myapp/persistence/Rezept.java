@@ -4,21 +4,21 @@ import jakarta.persistence.*;
 
 @Entity
 public class Rezept {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
     private String nameRezept;
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String anleitungRezept;
-    @Column(columnDefinition = "TEXT") // Postgres große Texte erlaubt
     private String bild;
     private String kategorie;
     private String dauer;
 
-    public Rezept() {}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User owner; // Verknüpfung zum User
 
+    public Rezept() {}
     public Rezept(String nameRezept, String anleitungRezept, String bild, String kategorie, String dauer) {
         this.nameRezept = nameRezept;
         this.anleitungRezept = anleitungRezept;
@@ -27,18 +27,18 @@ public class Rezept {
         this.dauer = dauer;
     }
 
-    // Getter und Setter
+    // Getter & Setter inklusive owner
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
     public String getNameRezept() { return nameRezept; }
-    public void setNameRezept(String nameRezept) { this.nameRezept = nameRezept; }
+    public void setNameRezept(String n) { this.nameRezept = n; }
     public String getAnleitungRezept() { return anleitungRezept; }
-    public void setAnleitungRezept(String anleitungRezept) { this.anleitungRezept = anleitungRezept; }
+    public void setAnleitungRezept(String a) { this.anleitungRezept = a; }
     public String getBild() { return bild; }
-    public void setBild(String bild) { this.bild = bild; }
+    public void setBild(String b) { this.bild = b; }
     public String getKategorie() { return kategorie; }
-    public void setKategorie(String kategorie) { this.kategorie = kategorie; }
+    public void setKategorie(String k) { this.kategorie = k; }
     public String getDauer() { return dauer; }
-    public void setDauer(String dauer) { this.dauer = dauer; }
-
+    public void setDauer(String d) { this.dauer = d; }
+    public User getOwner() { return owner; }
+    public void setOwner(User owner) { this.owner = owner; }
 }
