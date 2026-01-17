@@ -29,6 +29,7 @@ public class Rezept {
 
     // Getter & Setter inklusive owner
     public Long getId() { return id; }
+    public Long setId(Long id) { this.id = id; return id; }
     public String getNameRezept() { return nameRezept; }
     public void setNameRezept(String n) { this.nameRezept = n; }
     public String getAnleitungRezept() { return anleitungRezept; }
